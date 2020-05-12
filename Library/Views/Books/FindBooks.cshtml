@@ -1,5 +1,5 @@
 ﻿@{
-    @model IEnumerable<Book>
+    @model IEnumerable<BookDTO>
     ViewData["Title"] = "Books search";
 }
 <h1>@ViewData["Title"]</h1>
@@ -34,7 +34,7 @@
                 <tr>
                     <th>Name</th>
                 </tr>
-                @foreach (Book book in Model)
+                @foreach (BookDTO book in Model)
                 {
                 <tr>
                     <td>@book.Name</td>

@@ -1,5 +1,5 @@
 ﻿@{
-    @model IEnumerable<Author>
+    @model IEnumerable<AuthorDTO>
     ViewData["Title"] = "Authors search";
 }
 <h1>@ViewData["Title"]</h1>
@@ -37,13 +37,13 @@
                     <th>Birth date</th>
                     <th>Book count</th>
                 </tr>
-                @foreach (Author author in Model)
+                @foreach (AuthorDTO author in Model)
                 {
                     <tr>
                         <td>@author.Name</td>
                         <td>@author.Surname</td>
                         <td>@author.BirthDate.ToShortDateString()</td>
-                        <td>@author.AuthorBooks.Count</td>
+                        <td>@author.Books.Count</td>
                     </tr>
                 }
             </table>

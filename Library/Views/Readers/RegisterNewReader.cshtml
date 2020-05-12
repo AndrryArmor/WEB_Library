@@ -1,5 +1,5 @@
 ﻿@{
-    @model IEnumerable<Reader>
+    @model IEnumerable<ReaderDTO>
     ViewData["Title"] = "Register new reader";
 }
 <h1>@ViewData["Title"]</h1>
@@ -65,7 +65,7 @@
                 <label>Date of registration</label>
             </th>
         </tr>
-        @foreach (Reader reader in Model)
+        @foreach (ReaderDTO reader in Model)
         {
             <tr style="border: 1px solid black">
                 <td style="border: 1px solid black">

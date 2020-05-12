@@ -14,7 +14,7 @@
                 </td>
                 <td>
                     <select name="readerId">
-                        @foreach (Reader reader in Model.Readers)
+                        @foreach (ReaderDTO reader in Model.Readers)
                         {
                             <option value="@reader.Id">@reader.ReaderCard.Name @reader.ReaderCard.Surname</option>
                         }
@@ -27,7 +27,7 @@
                 </td>
                 <td>
                     <select name="bookId">
-                        @foreach (Book book in Model.Books)
+                        @foreach (BookDTO book in Model.Books)
                         {
                             <option value="@book.Id">@book.Name</option>
                         }
@@ -51,7 +51,7 @@
                 <label>Date</label>
             </th>
         </tr>
-        @foreach (Record record in Model.Records)
+        @foreach (RecordDTO record in Model.Records)
         {
             <tr  style="border: 1px solid black">
                 <td  style="border: 1px solid black">
