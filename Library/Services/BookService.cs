@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Library.Data.Entities;
+using Library.Entities;
 using Library.Models;
 using Library.Objects;
 using Library.Repositories;

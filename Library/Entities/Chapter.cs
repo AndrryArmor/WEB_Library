@@ -1,6 +1,6 @@
 ﻿using System.Security.Policy;
 
-namespace Library.Data.Entities
+namespace Library.Entities
 {
     public class Chapter
     {

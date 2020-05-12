@@ -1,5 +1,4 @@
-﻿using Library.Data.Entities;
-using Library.Models;
+﻿using Library.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

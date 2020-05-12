@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Library.Data.Entities
+namespace Library.Entities
 {
     public class ReaderCard
     {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Library.Models;
 using Library.Services;
+using Library.Objects;
 
 namespace Library.Controllers
 {
@@ -29,12 +30,12 @@ namespace Library.Controllers
         [HttpPost]
         public IActionResult FindAuthors(string query, string findType)
         {
-            IEnumerable<Author> authors = GetAuthorsByQuery(query, findType);
+            IEnumerable<AuthorDTO> authors = GetAuthorsByQuery(query, findType);
             ViewData["Visibility"] = "";
             return View(authors);
         }
 
-        private IEnumerable<Author> GetAuthorsByQuery(string query, string findType)
+        private IEnumerable<AuthorDTO> GetAuthorsByQuery(string query, string findType)
         {
             switch (findType)
             {

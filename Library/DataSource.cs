@@ -1,11 +1,11 @@
-﻿using Library.Data.Entities;
+﻿using Library.Entities;
 using Library.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Library.Data
+namespace Library
 {
     public static class DataSource
     {
@@ -19,9 +19,33 @@ namespace Library.Data
             if (isCalled == true)
                 return;
 
-            ReaderCard readerCard1 = new ReaderCard(1, "Василій", "Пупкін", 17, "pupkin_v@gmail.com", new DateTime(2018, 10, 2));
-            ReaderCard readerCard2 = new ReaderCard(2, "Анастасія", "Козаченко", 19, "koz_a@gmail.com", new DateTime(2016, 3, 30));
-            ReaderCard readerCard3 = new ReaderCard(3, "Віталій", "Дзюба", 24, "vitalii_dziuba@gmail.com", new DateTime(2019, 4, 13));
+            ReaderCard readerCard1 = new ReaderCard
+            {
+                Id = 1, 
+                Name = "Василій",
+                Surname = "Пупкін",
+                Age = 17, 
+                Email = "pupkin_v@gmail.com",
+                DateOfRegistration = new DateTime(2018, 10, 2)
+            };
+            ReaderCard readerCard2 = new ReaderCard
+            {
+                Id = 2, 
+                Name = "Анастасія",
+                Surname = "Козаченко",
+                Age = 19, 
+                Email = "koz_a@gmail.com",
+                DateOfRegistration = new DateTime(2016, 3, 30)
+            };
+            ReaderCard readerCard3 = new ReaderCard
+            {
+                Id = 3,
+                Name = "Віталій",
+                Surname = "Дзюба",
+                Age = 24,
+                Email = "vitalii_dziuba@gmail.com",
+                DateOfRegistration = new DateTime(2019, 4, 13)
+            };
 
             Reader reader1 = new Reader() { Id = 1, ReaderCard = readerCard1 };
             Reader reader2 = new Reader() { Id = 2, ReaderCard = readerCard2 };
@@ -31,11 +55,41 @@ namespace Library.Data
             Book book2 = new Book() { Id = 2, Name = "Філософія думок" };
             Book book3 = new Book() { Id = 3, Name = "Останній листок" };
 
-            Record record1 = new Record(1, book3, new DateTime(2019, 10, 24), reader1);
-            Record record2 = new Record(2, book1, new DateTime(2020, 1, 16), reader1);
-            Record record3 = new Record(3, book2, new DateTime(2019, 5, 24), reader2);
-            Record record4 = new Record(4, book3, new DateTime(2019, 9, 4), reader2);
-            Record record5 = new Record(5, book1, new DateTime(2019, 6, 24), reader3);
+            Record record1 = new Record
+            {
+                Id = 1, 
+                Book = book3,
+                DateOfReceiving = new DateTime(2019, 10, 24),
+                Reader = reader1
+            };
+            Record record2 = new Record
+            {
+                Id = 2,
+                Book = book1,
+                DateOfReceiving = new DateTime(2020, 1, 16),
+                Reader = reader1
+            };
+            Record record3 = new Record
+            {
+                Id = 3, 
+                Book = book2,
+                DateOfReceiving = new DateTime(2019, 5, 24),
+                Reader = reader2
+            };
+            Record record4 = new Record
+            {
+                Id = 4,
+                Book = book3,
+                DateOfReceiving = new DateTime(2019, 9, 4),
+                Reader = reader2
+            };
+            Record record5 = new Record
+            {
+                Id = 5,
+                Book = book1,
+                DateOfReceiving = new DateTime(2019, 6, 24),
+                Reader = reader3
+            };
             reader1.Records.Add(record1);
             reader1.Records.Add(record2);
             reader2.Records.Add(record3);
