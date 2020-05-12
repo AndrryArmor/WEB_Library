@@ -21,11 +21,6 @@ namespace Library.Services
             return unitOfWork.ReaderRepository.GetAll();
         }
 
-        public IEnumerable<Book> GetAllBooks()
-        {
-            return unitOfWork.BookRepository.GetAll();
-        }
-
         public void AddNewReader(string name, string surname, int age, string email)
         {
             var readers = unitOfWork.ReaderRepository.GetAll();

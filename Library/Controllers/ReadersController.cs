@@ -37,18 +37,6 @@ namespace Library.Controllers
         [HttpGet]
         public IActionResult TakeABook()
         {
-            var readerViewModel = new ReaderViewModel()
-            {
-                Readers = _readerService.GetAllReaders(),
-                Books = _readerService.GetAllBooks(),
-                Records = _readerService.GetAllReaders().SelectMany(reader => reader.Records).ToList()
-            };
-            return View("TakeABook", readerViewModel);
-        }
-
-        [HttpPost]
-        public IActionResult TakeABook(string readerId, string bookId)
-        {
             IEnumerable<Reader> readers = _readerService.GetAllReaders();
             IEnumerable<Record> records = readers.SelectMany(reader => reader.Records);
             IEnumerable<Book> books = records.Select(record => record.Book).ToHashSet();
@@ -56,10 +44,25 @@ namespace Library.Controllers
             {
                 Readers = readers,
                 Records = records,
-                Books = books,
+                Books = books
             };
+            return View("TakeABook", readerViewModel);
+        }
 
+        [HttpPost]
+        public IActionResult TakeABook(string readerId, string bookId)
+        {
             _readerService.AddBookToReader(int.Parse(readerId), int.Parse(bookId));
+
+            IEnumerable<Reader> readers = _readerService.GetAllReaders();
+            IEnumerable<Record> records = readers.SelectMany(reader => reader.Records);
+            IEnumerable<Book> books = records.Select(record => record.Book).ToHashSet();
+            var readerViewModel = new ReaderViewModel()
+            {
+                Readers = readers,
+                Records = records,
+                Books = books
+            };
             return View("TakeABook", readerViewModel);
         }
     }
