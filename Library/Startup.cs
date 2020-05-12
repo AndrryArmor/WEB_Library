@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Library.Entities;
 using Library.Models;
 using Library.Repositories;
@@ -26,10 +27,16 @@ namespace Library
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new MapperProfile());
+            });
+
             services.AddControllersWithViews();
             services.AddTransient<IBookService, BookService>();
             services.AddTransient<IReaderService, ReaderService>();
             services.AddTransient<IAuthorService, AuthorService>();
+            services.AddSingleton(configuration.CreateMapper());
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IRepository<Book>, BookRepository>();
             services.AddScoped<IRepository<Reader>, ReaderRepository>();
