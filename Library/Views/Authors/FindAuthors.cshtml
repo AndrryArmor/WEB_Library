@@ -1,0 +1,52 @@
+﻿@{
+    @model IEnumerable<Author>
+    ViewData["Title"] = "Authors search";
+}
+<h1>@ViewData["Title"]</h1>
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <form method="post">
+        <label>Input your query</label><br>
+        <input type="text" name="query">
+        <select name="findType">
+            <option value="name">Find by name</option>
+            <option value="birthDate">Find by birth date</option>
+            <option value="bookCount">Find by book count</option>
+        </select>
+        <input type="submit" value="Find">
+    </form>
+    <br>
+    <div @ViewData["Visibility"]>
+        <h3>Found authors:</h3>
+        @if (Model == null || Model.Any() == false)
+        {
+            <label>None</label>
+        }
+        else
+        {
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Birth date</th>
+                    <th>Book count</th>
+                </tr>
+                @foreach (Author author in Model)
+                {
+                    <tr>
+                        <td>@author.Name</td>
+                        <td>@author.Surname</td>
+                        <td>@author.BirthDate.ToShortDateString()</td>
+                        <td>@author.AuthorBooks.Count</td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</body>

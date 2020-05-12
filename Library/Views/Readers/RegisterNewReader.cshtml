@@ -1,0 +1,68 @@
+﻿@{
+    @model IEnumerable<Reader>
+    ViewData["Title"] = "Register new reader";
+}
+<h1>@ViewData["Title"]</h1>
+<head>
+    <style>
+        table, td {
+            border: hidden;
+        }
+    </style>
+</head>
+<body>
+    <form method="post">
+        <table>
+            <tr>
+                <td>
+                    <label>Name: </label>
+                </td>
+                <td>
+                    <input type="text" name="name">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Surname: </label>
+                </td>
+                <td>
+                    <input type="text" name="surname">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Age: </label>
+                </td>
+                <td>
+                    <input type="number" name="age" min="0" max="99">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Email: </label>
+                </td>
+                <td>
+                    <input type="text" name="email">
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Register" onclick="alert('Reader was added successfully!');">
+        <br><br>
+    </form>
+    <label>Readers</label>
+    <table  style="border: 1px solid black">
+        <tr style="border: 1px solid black">
+            <th style="border: 1px solid black">
+                <label>Name and surname</label>
+            </th>
+        </tr>
+        @foreach (Reader reader in Model)
+        {
+            <tr style="border: 1px solid black">
+                <td style="border: 1px solid black">
+                    <label>@reader.ReaderCard.Name @reader.ReaderCard.Surname</label>
+                </td>
+            </tr>
+        }
+    </table>
+</body>

@@ -9,9 +9,9 @@ namespace Library.Data
     public static class DataSource
     {
         private static bool isCalled = false;
-        public static List<Reader> Readers { get; }
-        public static List<Book> Books { get; }
-        public static List<Author> Authors { get; }
+        public static List<Reader> Readers { get; } = new List<Reader>();
+        public static List<Book> Books { get; } = new List<Book>();
+        public static List<Author> Authors { get; } = new List<Author>();
 
         public static void CreateData()
         {

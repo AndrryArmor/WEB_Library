@@ -7,13 +7,23 @@ using System.Threading.Tasks;
 
 namespace Library.Services
 {
-    public class ReaderService
+    public class ReaderService : IReaderService
     {
-        private UnitOfWork unitOfWork;
+        private IUnitOfWork unitOfWork;
 
-        public ReaderService(UnitOfWork unitOfWork)
+        public ReaderService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
+        }
+
+        public IEnumerable<Reader> GetAllReaders()
+        {
+            return unitOfWork.ReaderRepository.GetAll();
+        }
+
+        public IEnumerable<Book> GetAllBooks()
+        {
+            return unitOfWork.BookRepository.GetAll();
         }
 
         public void AddNewReader(string name, string surname, int age, string email)
@@ -26,11 +36,16 @@ namespace Library.Services
             unitOfWork.ReaderRepository.Create(new Reader(readerId, newReaderCard));
         }
 
-        public void AddBook(Reader reader, Book book)
+        public void AddBookToReader(int readerId, int bookId)
         {
-            var readers = unitOfWork.ReaderRepository.GetAll();
+            var readers = new List<Reader>(unitOfWork.ReaderRepository.GetAll());
+            var books = new List<Book>(unitOfWork.BookRepository.GetAll());
+
             var records = readers.SelectMany(reader => reader.Records);
             var recordId = records.Select(record => record.Id).Max() + 1;
+
+            Reader reader = readers.Find(reader => reader.Id == readerId);
+            Book book = books.Find(book => book.Id == bookId);
 
             reader.Records.Add(new Record(recordId, book, DateTime.Now, reader));
         }

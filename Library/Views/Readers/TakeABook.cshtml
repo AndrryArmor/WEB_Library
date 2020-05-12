@@ -1,0 +1,69 @@
+﻿@{
+    @model ReaderViewModel
+    ViewData["Title"] = "Take a book";
+}
+<h1>@ViewData["Title"]</h1>
+<head>
+</head>
+<body>
+    <form method="post">
+        <table>
+            <tr>
+                <td>
+                    <label>Choose a reader: </label>
+                </td>
+                <td>
+                    <select name="readerId">
+                        @foreach (Reader reader in Model.Readers)
+                        {
+                            <option value="@reader.Id">@reader.ReaderCard.Name @reader.ReaderCard.Surname</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Choose a book: </label>
+                </td>
+                <td>
+                    <select name="bookId">
+                        @foreach (Book book in Model.Books)
+                        {
+                            <option value="@book.Id">@book.Name</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Take a book" onclick="alert('Book was taken successfully!');">
+        <br><br>
+    </form>
+    <label>Records in memory</label>
+    <table  style="border: 1px solid black">
+        <tr  style="border: 1px solid black">
+            <th  style="border: 1px solid black">
+                <label>Reader</label>
+            </th>
+            <th  style="border: 1px solid black">
+                <label>Book</label>
+            </th>
+            <th  style="border: 1px solid black">
+                <label>Date</label>
+            </th>
+        </tr>
+        @foreach (Record record in Model.Records)
+        {
+            <tr  style="border: 1px solid black">
+                <td  style="border: 1px solid black">
+                    <label>@record.Reader.ReaderCard.Name @record.Reader.ReaderCard.Surname</label>
+                </td>
+                <td  style="border: 1px solid black">
+                    <label>@record.Book.Name</label>
+                </td>
+                <td  style="border: 1px solid black">
+                    <label>@record.DateOfReceiving.ToShortDateString()</label>
+                </td>
+            </tr>
+        }
+    </table>
+</body>

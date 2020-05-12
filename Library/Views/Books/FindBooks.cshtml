@@ -1,0 +1,46 @@
+﻿@{
+    @model IEnumerable<Book>
+    ViewData["Title"] = "Books search";
+}
+<h1>@ViewData["Title"]</h1>
+<head>    
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <form method="post">
+        <label>Input your query</label><br>
+        <input type="text" name="query">
+        <select name="findType">
+            <option value="name">Find by name</option>
+            <option value="authorName">Find by author name</option>
+            <option value="chapterName">Find by chapter name</option>
+        </select>
+        <input type="submit" value="Find">
+    </form>
+    <br>
+    <div @ViewData["Visibility"]>
+        <h3>Found books:</h3>
+        @if (Model == null || Model.Any() == false)
+        {
+            <label>None</label>
+        }
+        else
+        {
+            <table>
+                <tr>
+                    <th>Name</th>
+                </tr>
+                @foreach (Book book in Model)
+                {
+                <tr>
+                    <td>@book.Name</td>
+                </tr>
+                }
+            </table>
+        }
+    </div>
+    </body>
