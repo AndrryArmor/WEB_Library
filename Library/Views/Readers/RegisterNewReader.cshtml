@@ -55,12 +55,30 @@
             <th style="border: 1px solid black">
                 <label>Name and surname</label>
             </th>
+            <th style="border: 1px solid black">
+                <label>Age</label>
+            </th>
+            <th style="border: 1px solid black">
+                <label>Email</label>
+            </th>
+            <th style="border: 1px solid black">
+                <label>Date of registration</label>
+            </th>
         </tr>
         @foreach (Reader reader in Model)
         {
             <tr style="border: 1px solid black">
                 <td style="border: 1px solid black">
                     <label>@reader.ReaderCard.Name @reader.ReaderCard.Surname</label>
+                </td>
+                <td style="border: 1px solid black">
+                    <label>@reader.ReaderCard.Age</label>
+                </td>
+                <td style="border: 1px solid black">
+                    <label>@reader.ReaderCard.Email</label>
+                </td>
+                <td style="border: 1px solid black">
+                    <label>@reader.ReaderCard.DateOfRegistration.ToShortDateString()</label>
                 </td>
             </tr>
         }

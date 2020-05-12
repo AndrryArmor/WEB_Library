@@ -49,11 +49,14 @@ namespace Library.Controllers
         [HttpPost]
         public IActionResult TakeABook(string readerId, string bookId)
         {
+            IEnumerable<Reader> readers = _readerService.GetAllReaders();
+            IEnumerable<Record> records = readers.SelectMany(reader => reader.Records);
+            IEnumerable<Book> books = records.Select(record => record.Book).ToHashSet();
             var readerViewModel = new ReaderViewModel()
             {
-                Readers = _readerService.GetAllReaders(),
-                Books = _readerService.GetAllBooks(),
-                Records = _readerService.GetAllReaders().SelectMany(reader => reader.Records).ToList()
+                Readers = readers,
+                Records = records,
+                Books = books,
             };
 
             _readerService.AddBookToReader(int.Parse(readerId), int.Parse(bookId));

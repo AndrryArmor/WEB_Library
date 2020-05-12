@@ -10,7 +10,7 @@ namespace Library.Models
         public string Surname { get; set; }
         public int Age { get; set; }
         public string Email { get; set; }
-        public DateTime DateOfReceiving { get; set; }
+        public DateTime DateOfRegistration { get; set; }
 
         public ReaderCard(int id, string name, string surname, int age, string email, DateTime dateOfReceiving)
         {
@@ -19,7 +19,7 @@ namespace Library.Models
             Surname = surname;
             Age = age;
             Email = email;
-            DateOfReceiving = dateOfReceiving;
+            DateOfRegistration = dateOfReceiving;
         }
     }
 }
