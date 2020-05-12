@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Library.Models
+namespace Library.Objects
 {
-    public class ReaderCard
+    public class ReaderCardDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -12,7 +12,8 @@ namespace Library.Models
         public string Email { get; set; }
         public DateTime DateOfRegistration { get; set; }
 
-        public ReaderCard(int id, string name, string surname, int age, string email, DateTime dateOfReceiving)
+        public ReaderCardDTO() { }
+        public ReaderCardDTO(int id, string name, string surname, int age, string email, DateTime dateOfReceiving)
         {
             Id = id;
             Name = name;

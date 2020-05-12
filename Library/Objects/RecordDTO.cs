@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Diagnostics.Eventing.Reader;
 
-namespace Library.Models
+namespace Library.Objects
 {
-    public class Record
+    public class RecordDTO
     {
         public int Id { get; set; }
-        public Book Book { get; set; }
+        public BookDTO Book { get; set; }
         public DateTime DateOfReceiving { get; set; }
-        public Reader Reader { get; set; }
+        public ReaderDTO Reader { get; set; }
 
-        public Record(int id, Book book, DateTime dateOfReceiving, Reader reader)
+        public RecordDTO(int id, BookDTO book, DateTime dateOfReceiving, ReaderDTO reader)
         {
             Id = id;
             Book = book;

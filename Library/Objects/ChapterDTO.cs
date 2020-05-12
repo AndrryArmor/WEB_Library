@@ -1,11 +1,11 @@
 ﻿using System.Security.Policy;
 
-namespace Library.Models
+namespace Library.Objects
 {
-    public class Chapter
+    public class ChapterDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Book Book { get; set; }
+        public BookDTO Book { get; set; }
     }
 }

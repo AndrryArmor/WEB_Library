@@ -1,4 +1,7 @@
-﻿using Library.Models;
+﻿using AutoMapper;
+using Library.Data.Entities;
+using Library.Models;
+using Library.Objects;
 using Library.Repositories;
 using System;
 using System.Collections.Generic;
@@ -9,40 +12,63 @@ namespace Library.Services
 {
     public class ReaderService : IReaderService
     {
-        private IUnitOfWork unitOfWork;
+        private IUnitOfWork _unitOfWork;
+        private IMapper _mapper;
 
-        public ReaderService(IUnitOfWork unitOfWork)
+        public ReaderService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            this.unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public IEnumerable<Reader> GetAllReaders()
+        public IEnumerable<ReaderDTO> GetAllReaders()
         {
-            return unitOfWork.ReaderRepository.GetAll();
+            var foundReaders = _unitOfWork.ReaderRepository.GetAll();
+            return foundReaders.Select(reader => _mapper.Map<ReaderDTO>(reader));
         }
 
         public void AddNewReader(string name, string surname, int age, string email)
         {
-            var readers = unitOfWork.ReaderRepository.GetAll();
+            var readers = _unitOfWork.ReaderRepository.GetAll();
             var readerId = readers.Select(reader => reader.Id).Max() + 1;
             var readerCardId = readers.Select(reader => reader.ReaderCard.Id).Max() + 1;
 
-            ReaderCard newReaderCard = new ReaderCard(readerCardId, name, surname, age, email, DateTime.Now);
-            unitOfWork.ReaderRepository.Create(new Reader(readerId, newReaderCard));
+            var newReaderCard = new ReaderCard
+            { 
+                Id = readerCardId, 
+                Name = name, 
+                Surname = surname, 
+                Age = age, 
+                Email = email, 
+                DateOfRegistration = DateTime.Now 
+            };
+            var newReader = new Reader
+            {
+                Id = readerId,
+                ReaderCard = newReaderCard
+            };
+            _unitOfWork.ReaderRepository.Create(newReader);
         }
 
         public void AddBookToReader(int readerId, int bookId)
         {
-            var readers = new List<Reader>(unitOfWork.ReaderRepository.GetAll());
-            var books = new List<Book>(unitOfWork.BookRepository.GetAll());
-
+            var readers = new List<Reader>(_unitOfWork.ReaderRepository.GetAll());
             var records = readers.SelectMany(reader => reader.Records);
             var recordId = records.Select(record => record.Id).Max() + 1;
 
-            Reader reader = readers.Find(reader => reader.Id == readerId);
+            var books = new List<Book>(_unitOfWork.BookRepository.GetAll());
             Book book = books.Find(book => book.Id == bookId);
 
-            reader.Records.Add(new Record(recordId, book, DateTime.Now, reader));
+            Reader reader = readers.Find(reader => reader.Id == readerId);
+
+            var newRecord = new Record
+            {
+                Id = recordId,
+                Book = book,
+                DateOfReceiving = DateTime.Now,
+                Reader = reader
+            };
+            reader.Records.Add(newRecord);
         }
     }
 }

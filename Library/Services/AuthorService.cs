@@ -1,5 +1,9 @@
-﻿using Library.Models;
+﻿using AutoMapper;
+using Library.Data.Entities;
+using Library.Models;
+using Library.Objects;
 using Library.Repositories;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,31 +13,36 @@ namespace Library.Services
 {
     public class AuthorService : IAuthorService
     {
-        private IUnitOfWork unitOfWork;
+        private IMapper _mapper; 
+        private IUnitOfWork _unitOfWork;
 
-        public AuthorService(IUnitOfWork unitOfWork)
+        public AuthorService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            this.unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public IEnumerable<Author> FindByName(string name)
+        public IEnumerable<AuthorDTO> FindByName(string name)
         {
-            return unitOfWork.AuthorRepository.GetAll()
+            var foundAuthors = _unitOfWork.AuthorRepository.GetAll()
                 .Where(author => author.Name.ToLower() == name?.ToLower() ||
                                  author.Surname.ToLower() == name?.ToLower() ||
                                  author.Name.ToLower() + " " + author.Surname.ToLower() == name?.ToLower());
+            return foundAuthors.Select(author => _mapper.Map<AuthorDTO>(author));
         }
 
-        public IEnumerable<Author> FindByBirthDate(DateTime birthDate)
+        public IEnumerable<AuthorDTO> FindByBirthDate(DateTime birthDate)
         {
-            return unitOfWork.AuthorRepository.GetAll()
+            var foundAuthors = _unitOfWork.AuthorRepository.GetAll()
                 .Where(author => author.BirthDate == birthDate);
+            return foundAuthors.Select(author => _mapper.Map<AuthorDTO>(author));
         }
 
-        public IEnumerable<Author> FindByBookCount(int bookCount)
+        public IEnumerable<AuthorDTO> FindByBookCount(int bookCount)
         {
-            var authors = new List<Author>(unitOfWork.AuthorRepository.GetAll());
-            return authors.FindAll(author => author.AuthorBooks.Count == bookCount);
+            var authors = new List<Author>(_unitOfWork.AuthorRepository.GetAll());
+            var foundAuthors = authors.FindAll(author => author.AuthorBooks.Count == bookCount);
+            return foundAuthors.Select(author => _mapper.Map<AuthorDTO>(author));
         }
     }
 }
