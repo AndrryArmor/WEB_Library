@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Library.Models;
 using Library.Services;
+using Library.Objects;
 
 namespace Library.Controllers
 {
@@ -22,7 +23,7 @@ namespace Library.Controllers
         [HttpGet]
         public IActionResult RegisterNewReader()
         {
-            IEnumerable<Reader> readers = _readerService.GetAllReaders();
+            IEnumerable<ReaderDTO> readers = _readerService.GetAllReaders();
             return View("RegisterNewReader", readers);
         }
 
@@ -30,16 +31,16 @@ namespace Library.Controllers
         public IActionResult RegisterNewReader(string name, string surname, int age, string email)
         {
             _readerService.AddNewReader(name, surname, age, email);
-            IEnumerable<Reader> readers = _readerService.GetAllReaders();
+            IEnumerable<ReaderDTO> readers = _readerService.GetAllReaders();
             return View("RegisterNewReader", readers);
         }
 
         [HttpGet]
         public IActionResult TakeABook()
         {
-            IEnumerable<Reader> readers = _readerService.GetAllReaders();
-            IEnumerable<Record> records = readers.SelectMany(reader => reader.Records);
-            IEnumerable<Book> books = records.Select(record => record.Book).ToHashSet();
+            IEnumerable<ReaderDTO> readers = _readerService.GetAllReaders();
+            IEnumerable<RecordDTO> records = readers.SelectMany(reader => reader.Records);
+            IEnumerable<BookDTO> books = records.Select(record => record.Book).ToHashSet();
             var readerViewModel = new ReaderViewModel()
             {
                 Readers = readers,
@@ -54,9 +55,9 @@ namespace Library.Controllers
         {
             _readerService.AddBookToReader(int.Parse(readerId), int.Parse(bookId));
 
-            IEnumerable<Reader> readers = _readerService.GetAllReaders();
-            IEnumerable<Record> records = readers.SelectMany(reader => reader.Records);
-            IEnumerable<Book> books = records.Select(record => record.Book).ToHashSet();
+            IEnumerable<ReaderDTO> readers = _readerService.GetAllReaders();
+            IEnumerable<RecordDTO> records = readers.SelectMany(reader => reader.Records);
+            IEnumerable<BookDTO> books = records.Select(record => record.Book).ToHashSet();
             var readerViewModel = new ReaderViewModel()
             {
                 Readers = readers,
