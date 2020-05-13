@@ -1,4 +1,6 @@
-﻿namespace Library.Entities
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Library.Entities
 {
     public class AuthorBook
     {

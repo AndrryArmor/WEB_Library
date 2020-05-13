@@ -1,4 +1,5 @@
-﻿using System.Security.Policy;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Security.Policy;
 
 namespace Library.Entities
 {
