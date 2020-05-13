@@ -19,17 +19,17 @@ namespace Library
 
         public LibraryContext(DbContextOptions options) : base(options) { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Author>().HasData(DataSource.Authors.ToArray());
-            modelBuilder.Entity<Reader>().HasData(DataSource.Readers.ToArray());
-            modelBuilder.Entity<Book>().HasData(DataSource.Books.ToArray());
-            modelBuilder.Entity<AuthorBook>().HasData(DataSource.Authors.SelectMany(author => author.AuthorBooks));
-            modelBuilder.Entity<Chapter>().HasData(DataSource.Books.SelectMany(book => book.Chapters));
-            modelBuilder.Entity<ReaderCard>().HasData(DataSource.Readers.Select(reader => reader.ReaderCard));
-            modelBuilder.Entity<Record>().HasData(DataSource.Readers.SelectMany(reader => reader.Records));
-        }
+        //    modelBuilder.Entity<Author>().HasData(DataSource.Authors.ToArray());
+        //    modelBuilder.Entity<Reader>().HasData(DataSource.Readers.ToArray());
+        //    modelBuilder.Entity<Book>().HasData(DataSource.Books.ToArray());
+        //    modelBuilder.Entity<AuthorBook>().HasData(DataSource.Authors.SelectMany(author => author.AuthorBooks));
+        //    modelBuilder.Entity<Chapter>().HasData(DataSource.Books.SelectMany(book => book.Chapters));
+        //    modelBuilder.Entity<ReaderCard>().HasData(DataSource.Readers.Select(reader => reader.ReaderCard));
+        //    modelBuilder.Entity<Record>().HasData(DataSource.Readers.SelectMany(reader => reader.Records));
+        //}
     }
 }

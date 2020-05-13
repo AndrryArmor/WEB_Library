@@ -9,6 +9,7 @@ using Library.Repositories;
 using Library.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -41,6 +42,7 @@ namespace Library
             services.AddScoped<IRepository<Book>, BookRepository>();
             services.AddScoped<IRepository<Reader>, ReaderRepository>();
             services.AddScoped<IRepository<Author>, AuthorRepository>();
+            services.AddDbContext<LibraryContext>(builder => builder.UseSqlServer(Configuration.GetConnectionString("LibraryDatabase")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

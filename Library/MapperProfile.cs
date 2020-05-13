@@ -12,12 +12,16 @@ namespace Library
     {
         public MapperProfile()
         {
-            CreateMap<AuthorDTO, Author>().ReverseMap();
-            CreateMap<BookDTO, Book>().ReverseMap();
-            CreateMap<ChapterDTO, Chapter>().ReverseMap();
-            CreateMap<ReaderDTO, Reader>().ReverseMap();
-            CreateMap<ReaderCardDTO, Author>().ReverseMap();
-            CreateMap<RecordDTO, Record>().ReverseMap();
+            CreateMap<Author, AuthorDTO>()
+                .ForMember(authorDTO => authorDTO.Books, opt => opt
+                    .MapFrom(author => author.AuthorBooks.Select(authorBook => authorBook.Book)));
+            CreateMap<Book, BookDTO>()
+                .ForMember(bookDTO => bookDTO.Authors, opt => opt
+                    .MapFrom(book => book.AuthorBooks.Select(authorBook => authorBook.Author)));
+            CreateMap<Chapter, ChapterDTO>().ReverseMap();
+            CreateMap<Reader, ReaderDTO>().ReverseMap();
+            CreateMap<ReaderCard, ReaderCardDTO>().ReverseMap();
+            CreateMap<Record, RecordDTO>().ReverseMap();
         }
     }
 }

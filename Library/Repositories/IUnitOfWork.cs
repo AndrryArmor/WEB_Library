@@ -1,4 +1,5 @@
 ﻿using Library.Entities;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace Library.Repositories
         IRepository<Reader> ReaderRepository { get; }
         IRepository<Book> BookRepository { get; }
         IRepository<Author> AuthorRepository { get; }
+        void SaveChanges();
     }
 }

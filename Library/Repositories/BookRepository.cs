@@ -1,5 +1,6 @@
 ﻿using Library.Entities;
 using Library.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,40 +10,36 @@ namespace Library.Repositories
 {
     public class BookRepository : IRepository<Book>
     {
-        private List<Book> books;
+        private DbSet<Book> _books;
 
-        public BookRepository()
+        public BookRepository(DbContext dbContext)
         {
-            DataSource.CreateData();
-            books = DataSource.Books;
+            _books = dbContext.Set<Book>();
         }
 
         public void Create(Book item)
         {
-            books.Add(item);
+            _books.Add(item);
         }
 
         public Book Read(int id)
         {
-            return books.Find(book => book.Id == id);
+            return _books.Find(id);
         }
 
         public void Update(Book item)
         {
-            Book foundBook = books.Find(book => book.Id == item.Id);
-            if (foundBook != null)
-                books.Remove(foundBook);
-            books.Add(item);
+            _books.Update(item);
         }
 
         public void Delete(int id)
         {
-            books.RemoveAll(book => book.Id == id);
+            _books.Remove(_books.Find(id));
         }
 
         public IEnumerable<Book> GetAll()
         {
-            return books;
+            return _books;
         }
     }
 }

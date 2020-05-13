@@ -1,5 +1,6 @@
 ﻿using Library.Entities;
 using Library.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,40 +10,36 @@ namespace Library.Repositories
 {
     public class ReaderRepository : IRepository<Reader>
     {
-        private List<Reader> readers;
+        private DbSet<Reader> _readers;
 
-        public ReaderRepository()
+        public ReaderRepository(DbContext dbContext)
         {
-            DataSource.CreateData();
-            readers = DataSource.Readers;
+            _readers = dbContext.Set<Reader>();
         }
 
         public void Create(Reader item)
         {
-            readers.Add(item);
+            _readers.Add(item);
         }
 
         public Reader Read(int id)
         {
-            return readers.Find(reader => reader.Id == id);
+            return _readers.Find(id);
         }
 
         public void Update(Reader item)
         {
-            Reader foundReader = readers.Find(reader => reader.Id == item.Id);
-            if (foundReader != null)
-                readers.Remove(foundReader);
-            readers.Add(item);
+            _readers.Update(item);
         }
 
         public void Delete(int id)
         {
-            readers.RemoveAll(reader => reader.Id == id);
+            _readers.Remove(_readers.Find(id));
         }
 
         public IEnumerable<Reader> GetAll()
         {
-            return readers;
+            return _readers;
         }
     }
 }
