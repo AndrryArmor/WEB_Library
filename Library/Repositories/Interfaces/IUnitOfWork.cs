@@ -9,9 +9,10 @@ namespace Library.Repositories
 {
     public interface IUnitOfWork
     {
-        IRepository<Reader> ReaderRepository { get; }
-        IRepository<Book> BookRepository { get; }
-        IRepository<Author> AuthorRepository { get; }
+        IReaderRepository ReaderRepository { get; }
+        IBookRepository BookRepository { get; }
+        IAuthorRepository AuthorRepository { get; }
+
         void SaveChanges();
     }
 }

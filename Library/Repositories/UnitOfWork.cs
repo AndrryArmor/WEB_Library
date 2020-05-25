@@ -11,11 +11,13 @@ namespace Library.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private DbContext _dbContext; 
-        public IRepository<Reader> ReaderRepository { get; }
-        public IRepository<Book> BookRepository { get; }
-        public IRepository<Author> AuthorRepository { get; }
 
-        public UnitOfWork(DbContext dbContext, IRepository<Reader> readerRepository, IRepository<Book> bookRepository, IRepository<Author> authorRepository)
+        public IReaderRepository ReaderRepository { get; }
+        public IBookRepository BookRepository { get; }
+        public IAuthorRepository AuthorRepository { get; }
+
+        public UnitOfWork(DbContext dbContext, IReaderRepository readerRepository,
+            IBookRepository bookRepository, IAuthorRepository authorRepository)
         {
             _dbContext = dbContext;
             ReaderRepository = readerRepository;

@@ -8,38 +8,8 @@ using System.Threading.Tasks;
 
 namespace Library.Repositories
 {
-    public class BookRepository : IRepository<Book>
+    public class BookRepository : Repository<Book, int>, IBookRepository
     {
-        private DbSet<Book> _books;
-
-        public BookRepository(DbContext dbContext)
-        {
-            _books = dbContext.Set<Book>();
-        }
-
-        public void Create(Book item)
-        {
-            _books.Add(item);
-        }
-
-        public Book Read(int id)
-        {
-            return _books.Find(id);
-        }
-
-        public void Update(Book item)
-        {
-            _books.Update(item);
-        }
-
-        public void Delete(int id)
-        {
-            _books.Remove(_books.Find(id));
-        }
-
-        public IEnumerable<Book> GetAll()
-        {
-            return _books;
-        }
+        public BookRepository(DbContext dbContext) : base(dbContext) { }
     }
 }
