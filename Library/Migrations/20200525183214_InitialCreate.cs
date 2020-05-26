@@ -13,8 +13,8 @@ namespace Library.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    Surname = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Surname = table.Column<string>(nullable: false),
                     BirthDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -28,7 +28,7 @@ namespace Library.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,10 +41,10 @@ namespace Library.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    Surname = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Surname = table.Column<string>(nullable: false),
                     Age = table.Column<int>(nullable: false),
-                    Email = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: false),
                     DateOfRegistration = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -58,8 +58,8 @@ namespace Library.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AuthorId = table.Column<int>(nullable: true),
-                    BookId = table.Column<int>(nullable: true)
+                    AuthorId = table.Column<int>(nullable: false),
+                    BookId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,13 +69,13 @@ namespace Library.Migrations
                         column: x => x.AuthorId,
                         principalTable: "Authors",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AuthorBooks_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,8 +84,8 @@ namespace Library.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    BookId = table.Column<int>(nullable: true)
+                    Name = table.Column<string>(nullable: false),
+                    BookId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,7 +95,7 @@ namespace Library.Migrations
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -104,7 +104,7 @@ namespace Library.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ReaderCardId = table.Column<int>(nullable: true)
+                    ReaderCardId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,7 +114,7 @@ namespace Library.Migrations
                         column: x => x.ReaderCardId,
                         principalTable: "ReaderCards",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -123,9 +123,9 @@ namespace Library.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BookId = table.Column<int>(nullable: true),
+                    BookId = table.Column<int>(nullable: false),
                     DateOfReceiving = table.Column<DateTime>(nullable: false),
-                    ReaderId = table.Column<int>(nullable: true)
+                    ReaderId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -135,13 +135,13 @@ namespace Library.Migrations
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Records_Readers_ReaderId",
                         column: x => x.ReaderId,
                         principalTable: "Readers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
