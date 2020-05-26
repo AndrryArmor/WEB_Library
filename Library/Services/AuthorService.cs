@@ -4,6 +4,7 @@ using Library.Models;
 using Library.Objects;
 using Library.Repositories;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,23 +26,27 @@ namespace Library.Services
         public IEnumerable<AuthorDTO> FindByName(string name)
         {
             var foundAuthors = _unitOfWork.AuthorRepository.GetAll()
-                .Where(author => author.Name.ToLower() == name?.ToLower() ||
-                                 author.Surname.ToLower() == name?.ToLower() ||
-                                 author.Name.ToLower() + " " + author.Surname.ToLower() == name?.ToLower());
+                .Include(author => author.AuthorBooks)
+                .Where(author => author.Name.ToLower() == name.ToLower() ||
+                                 author.Surname.ToLower() == name.ToLower() ||
+                                 author.Name.ToLower() + " " + author.Surname.ToLower() == name.ToLower());
             return foundAuthors.Select(author => _mapper.Map<AuthorDTO>(author));
         }
 
         public IEnumerable<AuthorDTO> FindByBirthDate(DateTime birthDate)
         {
             var foundAuthors = _unitOfWork.AuthorRepository.GetAll()
+                .Include(author => author.AuthorBooks)
                 .Where(author => author.BirthDate == birthDate);
             return foundAuthors.Select(author => _mapper.Map<AuthorDTO>(author));
         }
 
         public IEnumerable<AuthorDTO> FindByBookCount(int bookCount)
         {
-            var authors = new List<Author>(_unitOfWork.AuthorRepository.GetAll());
-            var foundAuthors = authors.FindAll(author => author.AuthorBooks.Count == bookCount);
+            var foundAuthors = _unitOfWork.AuthorRepository.GetAll()
+                .Include(author => author.AuthorBooks)
+                .Where(author => author.AuthorBooks.Count == bookCount);
+
             return foundAuthors.Select(author => _mapper.Map<AuthorDTO>(author));
         }
     }

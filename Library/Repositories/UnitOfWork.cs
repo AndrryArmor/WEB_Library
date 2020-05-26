@@ -10,24 +10,34 @@ namespace Library.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private DbContext _dbContext; 
+        private LibraryContext _libraryContext; 
 
         public IReaderRepository ReaderRepository { get; }
+        public IReaderCardRepository ReaderCardRepository { get; }
+        public IRecordRepository RecordRepository { get; }
         public IBookRepository BookRepository { get; }
+        public IChapterRepository ChapterRepository { get; }
+        public IAuthorBookRepository AuthorBookRepository { get; }
         public IAuthorRepository AuthorRepository { get; }
 
-        public UnitOfWork(DbContext dbContext, IReaderRepository readerRepository,
-            IBookRepository bookRepository, IAuthorRepository authorRepository)
+        public UnitOfWork(LibraryContext libraryContext, IReaderRepository readerRepository, 
+            IReaderCardRepository readerCardRepository, IRecordRepository recordRepository, 
+            IBookRepository bookRepository, IChapterRepository chapterRepository,
+            IAuthorBookRepository authorBookRepository, IAuthorRepository authorRepository)
         {
-            _dbContext = dbContext;
+            _libraryContext = libraryContext;
             ReaderRepository = readerRepository;
+            ReaderCardRepository = readerCardRepository;
+            RecordRepository = recordRepository;
             BookRepository = bookRepository;
+            ChapterRepository = chapterRepository;
+            AuthorBookRepository = authorBookRepository;
             AuthorRepository = authorRepository;
         }
 
         public void SaveChanges()
         {
-            _dbContext.SaveChanges();
+            _libraryContext.SaveChanges();
         }
     }
 }

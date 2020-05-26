@@ -30,7 +30,10 @@ namespace Library.Controllers
         [HttpPost]
         public IActionResult FindAuthors(string query, string findType)
         {
-            IEnumerable<AuthorDTO> authors = GetAuthorsByQuery(query, findType);
+            IEnumerable<AuthorDTO> authors = string.IsNullOrEmpty(query) == false
+                ? GetAuthorsByQuery(query, findType)
+                : new List<AuthorDTO>();
+
             ViewData["Visibility"] = "";
             return View(authors);
         }
@@ -42,13 +45,15 @@ namespace Library.Controllers
                 case "name":
                     return _authorService.FindByName(query);
                 case "birthDate":
-                    DateTime.TryParse(query, out DateTime date);
-                    return _authorService.FindByBirthDate(date);
+                    return DateTime.TryParse(query, out DateTime date) == true
+                        ? _authorService.FindByBirthDate(date)
+                        : new List<AuthorDTO>();
                 case "bookCount":
-                    int.TryParse(query, out int bookCount);
-                    return _authorService.FindByBookCount(bookCount);
+                    return int.TryParse(query, out int bookCount) == true
+                        ? _authorService.FindByBookCount(bookCount)
+                        : new List<AuthorDTO>();
                 default:
-                    return null;
+                    return new List<AuthorDTO>();
             }
         }
     }

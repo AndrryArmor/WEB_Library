@@ -39,10 +39,14 @@ namespace Library
             services.AddTransient<IAuthorService, AuthorService>();
             services.AddSingleton(configuration.CreateMapper());
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IRepository<Book>, BookRepository>();
-            services.AddScoped<IRepository<Reader>, ReaderRepository>();
-            services.AddScoped<IRepository<Author>, AuthorRepository>();
-            services.AddDbContext<LibraryContext>(builder => builder.UseSqlServer(Configuration.GetConnectionString("LibraryDatabase")));
+            services.AddScoped<IReaderRepository, ReaderRepository>();
+            services.AddScoped<IReaderCardRepository, ReaderCardRepository>();
+            services.AddScoped<IRecordRepository, RecordRepository>();
+            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<IChapterRepository, ChapterRepository>();
+            services.AddScoped<IAuthorBookRepository, AuthorBookRepository>();
+            services.AddScoped<IAuthorRepository, AuthorRepository>();
+            services.AddDbContext<LibraryContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -10,6 +10,6 @@ namespace Library.Repositories
 {
     public class ReaderRepository : Repository<Reader, int>, IReaderRepository
     {
-        public ReaderRepository(DbContext dbContext) : base(dbContext) { }
+        public ReaderRepository(LibraryContext libraryContext) : base(libraryContext) { }
     }
 }

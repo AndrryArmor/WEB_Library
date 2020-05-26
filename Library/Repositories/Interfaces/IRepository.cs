@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Library.Repositories
@@ -11,6 +12,6 @@ namespace Library.Repositories
         TEntity Read(TKey id);
         void Update(TEntity item);
         void Delete(TKey id);
-        IEnumerable<TEntity> GetAll();
+        IQueryable<TEntity> GetAll();
     }
 }

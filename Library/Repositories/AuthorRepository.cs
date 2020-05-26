@@ -10,6 +10,6 @@ namespace Library.Repositories
 {
     public class AuthorRepository : Repository<Author, int>, IAuthorRepository
     {
-        public AuthorRepository(DbContext dbContext) : base(dbContext) { }
+        public AuthorRepository(LibraryContext libraryContext) : base(libraryContext) { }
     }
 }

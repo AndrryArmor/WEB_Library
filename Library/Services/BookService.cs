@@ -3,9 +3,11 @@ using Library.Entities;
 using Library.Models;
 using Library.Objects;
 using Library.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 namespace Library.Services
@@ -23,27 +25,37 @@ namespace Library.Services
 
         public IEnumerable<BookDTO> FindByAuthorName(string authorName)
         {
-            var authors = new List<Author>(_unitOfWork.AuthorRepository.GetAll());
-            var author = authors.Find(author => author.Name.ToLower() == authorName?.ToLower() ||
-                                                author.Surname.ToLower() == authorName?.ToLower() ||
-                                                author.Name.ToLower() + " " + author.Surname.ToLower() == authorName?.ToLower());
-            var foundBooks = author?.AuthorBooks.Select(authorBook => authorBook.Book);
+            var books = _unitOfWork.BookRepository.GetAll()
+                .Include(book => book.AuthorBooks)
+                .ThenInclude(authorBook => authorBook.Author).ToList();
+            var foundBooks = new List<Book>();
+
+            foreach (var book in books)
+            {
+                var foundAuthorMatch = book.AuthorBooks
+                    .Find(authorBook => authorBook.Author.Name.ToLower() == authorName.ToLower() ||
+                        authorBook.Author.Surname.ToLower() == authorName.ToLower() ||
+                        authorBook.Author.Name.ToLower() + " " + authorBook.Author.Surname.ToLower() == authorName.ToLower());
+                if (foundAuthorMatch != null)
+                    foundBooks.Add(book);
+            }
             return foundBooks.Select(book => _mapper.Map<BookDTO>(book));
         }
 
         public IEnumerable<BookDTO> FindByName(string name)
         {
-            var books = new List<Book>(_unitOfWork.BookRepository.GetAll());
-            var foundBooks = books.FindAll(book => book.Name == name);
+            var foundBooks = _unitOfWork.BookRepository.GetAll()
+                .Where(book => book.Name == name);
             return foundBooks.Select(book => _mapper.Map<BookDTO>(book));
         } 
 
         public IEnumerable<BookDTO> FindByChapterName(string chapterName)
         {
-            var books = new List<Book>(_unitOfWork.BookRepository.GetAll());
-            var chapters = books.SelectMany(book => book.Chapters)
-                                .Where(chapter => chapter.Name == chapterName);
-            var foundBooks = chapters.Select(chapter => chapter.Book);
+            var foundBooks = _unitOfWork.BookRepository.GetAll()
+                .Include(book => book.Chapters)
+                .AsEnumerable()
+                .Where(book => book.Chapters
+                    .Find(chapter => chapter.Name == chapterName) != null);
             return foundBooks.Select(book => _mapper.Map<BookDTO>(book));
         }
     }

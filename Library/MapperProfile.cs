@@ -14,10 +14,12 @@ namespace Library
         {
             CreateMap<Author, AuthorDTO>()
                 .ForMember(authorDTO => authorDTO.Books, opt => opt
-                    .MapFrom(author => author.AuthorBooks.Select(authorBook => authorBook.Book)));
+                    .MapFrom(author => author.AuthorBooks
+                        .Select(authorBook => authorBook.Book)));
             CreateMap<Book, BookDTO>()
                 .ForMember(bookDTO => bookDTO.Authors, opt => opt
-                    .MapFrom(book => book.AuthorBooks.Select(authorBook => authorBook.Author)));
+                    .MapFrom(book => book.AuthorBooks
+                        .Select(authorBook => authorBook.Author)));
             CreateMap<Chapter, ChapterDTO>().ReverseMap();
             CreateMap<Reader, ReaderDTO>().ReverseMap();
             CreateMap<ReaderCard, ReaderCardDTO>().ReverseMap();

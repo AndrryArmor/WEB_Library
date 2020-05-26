@@ -1,29 +1,32 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Library.Repositories
 {
     public abstract class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : class
     {
-        protected readonly DbContext dbContext;
+        protected readonly LibraryContext _libraryContext;
         protected readonly DbSet<TEntity> entities;
 
-        public Repository(DbContext dbContext)
+        public Repository(LibraryContext libraryContext)
         {
-            this.dbContext = dbContext;
-            entities = dbContext.Set<TEntity>();
+            _libraryContext = libraryContext;
+            entities = libraryContext.Set<TEntity>();
         }
 
         public virtual void Create(TEntity entity)
         {
             entities.Add(entity);
+            _libraryContext.SaveChanges();
         }
 
         public virtual void Delete(TKey id)
         {
-            entities.Remove(dbContext.Set<TEntity>().Find(id));
+            entities.Remove(entities.Find(id));
         }
 
         public virtual TEntity Read(TKey id)
@@ -34,11 +37,12 @@ namespace Library.Repositories
         public virtual void Update(TEntity entity)
         {
             entities.Update(entity);
+            _libraryContext.SaveChanges();
         }
 
-        public virtual IEnumerable<TEntity> GetAll()
+        public virtual IQueryable<TEntity> GetAll()
         {
-            return entities.AsNoTracking().ToList();
+            return entities.AsQueryable();
         }
     }
 }

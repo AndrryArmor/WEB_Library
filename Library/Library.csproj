@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200513001729_InitialCreate.cs" />
     <Compile Remove="Migrations\20200513001729_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200525201201_SeedAdded.cs" />
+    <Compile Remove="Migrations\20200525201201_SeedAdded.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +19,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.4" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
   </ItemGroup>
 
 </Project>

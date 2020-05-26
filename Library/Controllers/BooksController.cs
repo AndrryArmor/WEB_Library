@@ -30,7 +30,10 @@ namespace Library.Controllers
         [HttpPost]
         public IActionResult FindBooks(string query, string findType)
         {
-            IEnumerable<BookDTO> books = GetBooksByQuery(query, findType);
+            IEnumerable<BookDTO> books = string.IsNullOrEmpty(query) == false
+                ? GetBooksByQuery(query, findType)
+                : new List<BookDTO>();
+
             ViewData["Visibility"] = "";
             return View(books);
         }

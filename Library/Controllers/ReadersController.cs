@@ -38,14 +38,11 @@ namespace Library.Controllers
         [HttpGet]
         public IActionResult TakeABook()
         {
-            IEnumerable<ReaderDTO> readers = _readerService.GetAllReaders();
-            IEnumerable<RecordDTO> records = readers.SelectMany(reader => reader.Records);
-            IEnumerable<BookDTO> books = records.Select(record => record.Book).ToHashSet();
             var readerViewModel = new ReaderViewModel()
             {
-                Readers = readers,
-                Records = records,
-                Books = books
+                Readers = _readerService.GetAllReaders(),
+                Records = _readerService.GetAllRecords(),
+                Books = _readerService.GetAllBooks()
             };
             return View("TakeABook", readerViewModel);
         }
@@ -55,14 +52,11 @@ namespace Library.Controllers
         {
             _readerService.AddBookToReader(int.Parse(readerId), int.Parse(bookId));
 
-            IEnumerable<ReaderDTO> readers = _readerService.GetAllReaders();
-            IEnumerable<RecordDTO> records = readers.SelectMany(reader => reader.Records);
-            IEnumerable<BookDTO> books = records.Select(record => record.Book).ToHashSet();
             var readerViewModel = new ReaderViewModel()
             {
-                Readers = readers,
-                Records = records,
-                Books = books
+                Readers = _readerService.GetAllReaders(),
+                Records = _readerService.GetAllRecords(),
+                Books = _readerService.GetAllBooks()
             };
             return View("TakeABook", readerViewModel);
         }
