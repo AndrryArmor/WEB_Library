@@ -36,7 +36,7 @@ namespace Library
             services.AddControllersWithViews();
             services.AddTransient<IBookService, BookService>();
             services.AddTransient<IReaderService, ReaderService>();
-            services.AddTransient<IAuthorService, AuthorService>();
+            services.AddTransient<IAccountService, AuthorService>();
             services.AddSingleton(configuration.CreateMapper());
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IReaderRepository, ReaderRepository>();

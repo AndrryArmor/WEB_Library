@@ -1,4 +1,5 @@
 ﻿using Library.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Library
 {
-    public class LibraryContext : DbContext
+    public class LibraryContext : IdentityDbContext<User>
     {
         public DbSet<Author> Authors { get; set; }
         public DbSet<AuthorBook> AuthorBooks { get; set; }

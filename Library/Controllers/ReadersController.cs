@@ -13,9 +13,9 @@ namespace Library.Controllers
 {
     public class ReadersController : Controller
     {
-        private IReaderService _readerService;
+        private IAccountService _readerService;
 
-        public ReadersController(IReaderService readerService)
+        public ReadersController(IAccountService readerService)
         {
             _readerService = readerService;
         }

@@ -13,9 +13,9 @@ namespace Library.Controllers
 {
     public class AuthorsController : Controller
     {
-        private IAuthorService _authorService;
+        private IAccountService _authorService;
 
-        public AuthorsController(IAuthorService authorService)
+        public AuthorsController(IAccountService authorService)
         {
             _authorService = authorService;    
         }

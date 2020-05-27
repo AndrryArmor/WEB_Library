@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Library.Services
 {
-    public class AuthorService : IAuthorService
+    public class AuthorService : IAccountService
     {
         private IMapper _mapper; 
         private IUnitOfWork _unitOfWork;

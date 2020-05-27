@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Library.Services
 {
-    public interface IAuthorService
+    public interface IAccountService
     {
         IEnumerable<AuthorDTO> FindByName(string name);
         IEnumerable<AuthorDTO> FindByBirthDate(DateTime birthDate);
