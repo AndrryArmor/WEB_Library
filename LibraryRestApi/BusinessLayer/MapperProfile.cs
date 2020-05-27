@@ -1,29 +1,29 @@
 ﻿using AutoMapper;
-using Library.Entities;
-using Library.Objects;
+using LibraryRestApi.BusinessLayer.Models;
+using LibraryRestApi.DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Library
+namespace LibraryRestApi.BusinessLayer
 {
     public class MapperProfile : Profile
     {
         public MapperProfile()
         {
-            CreateMap<Author, AuthorDTO>()
+            CreateMap<AuthorEntity, Author>()
                 .ForMember(authorDTO => authorDTO.Books, opt => opt
                     .MapFrom(author => author.AuthorBooks
                         .Select(authorBook => authorBook.Book)));
-            CreateMap<Book, BookDTO>()
+            CreateMap<BookEntity, Book>()
                 .ForMember(bookDTO => bookDTO.Authors, opt => opt
                     .MapFrom(book => book.AuthorBooks
                         .Select(authorBook => authorBook.Author)));
-            CreateMap<Chapter, ChapterDTO>().ReverseMap();
-            CreateMap<Reader, ReaderDTO>().ReverseMap();
-            CreateMap<ReaderCard, ReaderCardDTO>().ReverseMap();
-            CreateMap<Record, RecordDTO>().ReverseMap();
+            CreateMap<ChapterEntity, Chapter>().ReverseMap();
+            CreateMap<ReaderEntity, Reader>().ReverseMap();
+            CreateMap<ReaderCardEntity, ReaderCard>().ReverseMap();
+            CreateMap<RecordEntity, Record>().ReverseMap();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Library.Objects
+namespace LibraryRestApi.BusinessLayer.Models
 {
     public class Author
     {

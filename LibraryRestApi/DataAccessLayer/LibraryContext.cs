@@ -1,4 +1,4 @@
-﻿using Library.Entities;
+﻿using LibraryRestApi.DataAccessLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -7,17 +7,17 @@ using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Library
+namespace LibraryRestApi.DataAccessLayer
 {
     public class LibraryContext : DbContext
     {
-        public DbSet<Author> Authors { get; set; }
-        public DbSet<AuthorBook> AuthorBooks { get; set; }
-        public DbSet<Book> Books { get; set; }
-        public DbSet<Chapter> Chapters { get; set; }
-        public DbSet<Reader> Readers { get; set; }
-        public DbSet<ReaderCard> ReaderCards { get; set; }
-        public DbSet<Record> Records { get; set; }
+        public DbSet<AuthorEntity> Authors { get; set; }
+        public DbSet<AuthorBookEntity> AuthorBooks { get; set; }
+        public DbSet<BookEntity> Books { get; set; }
+        public DbSet<ChapterEntity> Chapters { get; set; }
+        public DbSet<ReaderEntity> Readers { get; set; }
+        public DbSet<ReaderCardEntity> ReaderCards { get; set; }
+        public DbSet<RecordEntity> Records { get; set; }
 
         public LibraryContext(DbContextOptions options) : base(options) { }
 

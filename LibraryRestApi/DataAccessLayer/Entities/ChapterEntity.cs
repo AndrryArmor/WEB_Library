@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Policy;
 
-namespace Library.Entities
+namespace LibraryRestApi.DataAccessLayer.Entities
 {
     public class ChapterEntity
     {

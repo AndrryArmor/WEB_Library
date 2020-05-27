@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
-using Library.Entities;
-using Library.Models;
-using Library.Objects;
-using Library.Repositories;
+using LibraryRestApi.BusinessLayer.Models;
+using LibraryRestApi.DataAccessLayer;
+using LibraryRestApi.DataAccessLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Library.Services
+namespace LibraryRestApi.BusinessLayer.Services
 {
     public class ReaderService : IReaderService
     {

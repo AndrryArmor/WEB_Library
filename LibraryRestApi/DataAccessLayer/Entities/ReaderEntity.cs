@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Library.Entities
+namespace LibraryRestApi.DataAccessLayer.Entities
 {
     public class ReaderEntity
     {

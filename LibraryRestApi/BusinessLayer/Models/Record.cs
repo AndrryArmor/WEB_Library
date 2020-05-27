@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Eventing.Reader;
 
-namespace Library.Objects
+namespace LibraryRestApi.BusinessLayer.Models
 {
     public class Record
     {

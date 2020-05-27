@@ -1,6 +1,6 @@
 ﻿using System.Security.Policy;
 
-namespace Library.Objects
+namespace LibraryRestApi.BusinessLayer.Models
 {
     public class Chapter
     {

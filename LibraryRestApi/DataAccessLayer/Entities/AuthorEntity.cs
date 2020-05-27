@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Library.Entities
+namespace LibraryRestApi.DataAccessLayer.Entities
 {
     public class AuthorEntity
     {

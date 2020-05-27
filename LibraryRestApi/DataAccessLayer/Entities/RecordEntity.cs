@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Eventing.Reader;
 
-namespace Library.Entities
+namespace LibraryRestApi.DataAccessLayer.Entities
 {
     public class RecordEntity
     {

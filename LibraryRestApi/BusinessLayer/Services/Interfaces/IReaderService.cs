@@ -1,9 +1,9 @@
-﻿using Library.Models;
-using Library.Objects;
+﻿using LibraryRestApi.BusinessLayer.Models;
+using LibraryRestApi.DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
 
-namespace Library.Services
+namespace LibraryRestApi.BusinessLayer.Services
 {
     public interface IReaderService
     {

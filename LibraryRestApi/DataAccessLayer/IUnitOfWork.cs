@@ -1,11 +1,10 @@
-﻿using Library.Entities;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using LibraryRestApi.DataAccessLayer.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Library.Repositories
+namespace LibraryRestApi.DataAccessLayer
 {
     public interface IUnitOfWork
     {

@@ -1,12 +1,10 @@
-﻿using Library.Entities;
-using Library.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using LibraryRestApi.DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Library.Repositories
+namespace LibraryRestApi.DataAccessLayer.Repositories
 {
     public class ChapterRepository : Repository<ChapterEntity, int>, IChapterRepository
     {
