@@ -21,52 +21,40 @@ namespace LibraryRestApi.BusinessLayer.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<Reader> GetAllReaders()
+        public void Create(Reader reader)
+        {
+            _unitOfWork.ReaderRepository.Create(_mapper.Map<ReaderEntity>(reader));
+            _unitOfWork.ReaderCardRepository.Create(_mapper.Map<ReaderCardEntity>(reader.ReaderCard));
+            _unitOfWork.SaveChanges();
+        }
+
+        public Reader Read(int id)
+        {
+            var reader = _unitOfWork.ReaderRepository.GetAll()
+                .Include(reader => reader.ReaderCard)
+                .Where(reader => reader.Id == id).FirstOrDefault();
+            return _mapper.Map<Reader>(reader);
+        }
+
+        public void Update(Reader reader)
+        {
+            _unitOfWork.ReaderRepository.Update(_mapper.Map<ReaderEntity>(reader));
+            _unitOfWork.ReaderCardRepository.Update(_mapper.Map<ReaderCardEntity>(reader.ReaderCard));
+            _unitOfWork.SaveChanges();
+        }
+
+        public void Delete(int id)
+        {
+            _unitOfWork.ReaderCardRepository.Delete(_unitOfWork.ReaderRepository.Read(id).ReaderCard.Id);
+            _unitOfWork.ReaderRepository.Delete(id);
+            _unitOfWork.SaveChanges();
+        }
+
+        public IEnumerable<Reader> GetAll()
         {
             var readers = _unitOfWork.ReaderRepository.GetAll()
-                .Include(reader => reader.ReaderCard)
-                .Include(reader => reader.Records);
-            return readers.Select(reader => _mapper.Map<Reader>(reader));
-        }
-
-        public IEnumerable<Record> GetAllRecords()
-        {
-            var records = _unitOfWork.RecordRepository.GetAll();
-            return records.Select(reader => _mapper.Map<Record>(reader));
-        }
-
-        public IEnumerable<Book> GetAllBooks()
-        {
-            var books = _unitOfWork.BookRepository.GetAll();
-            return books.Select(reader => _mapper.Map<Book>(reader));
-        }
-
-        public void AddNewReader(string name, string surname, int age, string email)
-        {
-            var newReader = new ReaderEntity
-            {
-                ReaderCard = new ReaderCardEntity
-                {
-                    Name = name,
-                    Surname = surname,
-                    Age = age,
-                    Email = email,
-                    DateOfRegistration = DateTime.Now
-                },
-                Records = new List<RecordEntity>()
-            };
-            _unitOfWork.ReaderRepository.Create(newReader);
-        }
-
-        public void AddBookToReader(int readerId, int bookId)
-        {
-            var newRecord = new RecordEntity
-            {
-                Book = _unitOfWork.BookRepository.Read(bookId),
-                DateOfReceiving = DateTime.Now,
-                Reader = _unitOfWork.ReaderRepository.Read(readerId)
-            };
-            _unitOfWork.RecordRepository.Create(newRecord);
+                .Include(reader => reader.ReaderCard);
+            return readers.Select(readerEntity => _mapper.Map<Reader>(readerEntity));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LibraryRestApi.BusinessLayer.Models;
 using LibraryRestApi.DataAccessLayer;
+using LibraryRestApi.DataAccessLayer.Entities;
 using LibraryRestApi.DataAccessLayer.Repositories;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -22,31 +23,33 @@ namespace LibraryRestApi.BusinessLayer.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<Author> FindByName(string name)
+        public void Create(Author author)
         {
-            var foundAuthors = _unitOfWork.AuthorRepository.GetAll()
-                .Include(author => author.AuthorBooks)
-                .Where(author => author.Name.ToLower() == name.ToLower() ||
-                                 author.Surname.ToLower() == name.ToLower() ||
-                                 author.Name.ToLower() + " " + author.Surname.ToLower() == name.ToLower());
-            return foundAuthors.Select(author => _mapper.Map<Author>(author));
+            _unitOfWork.AuthorRepository.Create(_mapper.Map<AuthorEntity>(author));
+            _unitOfWork.SaveChanges();
         }
 
-        public IEnumerable<Author> FindByBirthDate(DateTime birthDate)
+        public Author Read(int id)
         {
-            var foundAuthors = _unitOfWork.AuthorRepository.GetAll()
-                .Include(author => author.AuthorBooks)
-                .Where(author => author.BirthDate == birthDate);
-            return foundAuthors.Select(author => _mapper.Map<Author>(author));
+            return _mapper.Map<Author>(_unitOfWork.AuthorRepository.Read(id));
         }
 
-        public IEnumerable<Author> FindByBookCount(int bookCount)
+        public void Update(Author author)
         {
-            var foundAuthors = _unitOfWork.AuthorRepository.GetAll()
-                .Include(author => author.AuthorBooks)
-                .Where(author => author.AuthorBooks.Count == bookCount);
+            _unitOfWork.AuthorRepository.Update(_mapper.Map<AuthorEntity>(author));
+            _unitOfWork.SaveChanges();
+        }
 
-            return foundAuthors.Select(author => _mapper.Map<Author>(author));
+        public void Delete(int id)
+        {
+            _unitOfWork.AuthorRepository.Delete(id);
+            _unitOfWork.SaveChanges();
+        }
+
+        public IEnumerable<Author> GetAll()
+        {
+            var authors = _unitOfWork.AuthorRepository.GetAll();
+            return authors.Select(authorEntity => _mapper.Map<Author>(authorEntity));
         }
     }
 }

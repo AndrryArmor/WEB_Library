@@ -7,8 +7,10 @@ namespace LibraryRestApi.BusinessLayer.Services
 {
     public interface IAuthorService
     {
-        IEnumerable<Author> FindByName(string name);
-        IEnumerable<Author> FindByBirthDate(DateTime birthDate);
-        IEnumerable<Author> FindByBookCount(int bookCount);
+        void Create(Author item);
+        Author Read(int id);
+        void Update(Author item);
+        void Delete(int id);
+        IEnumerable<Author> GetAll();
     }
 }

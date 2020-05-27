@@ -5,12 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Library.Models;
-using Library.Services;
-using Library.Objects;
+using LibraryRestApi.BusinessLayer.Services;
+using LibraryRestApi.BusinessLayer.Models;
 
-namespace Library.Controllers
+namespace LibraryRestApi.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class BooksController : Controller
     {
         private IBookService _bookService;
@@ -21,36 +22,49 @@ namespace Library.Controllers
         }
 
         [HttpGet]
-        public IActionResult FindBooks()
+        public IEnumerable<Book> Get()
         {
-            ViewData["Visibility"] = "hidden";
-            return View();
+            return _bookService.GetAll();
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<Book> Get(int id)
+        {
+            var book = _bookService.Read(id);
+            if (book == null)
+                return NotFound();
+            return new ObjectResult(book);
         }
 
         [HttpPost]
-        public IActionResult FindBooks(string query, string findType)
+        public ActionResult<Book> Post([FromBody] Book book)
         {
-            IEnumerable<BookDTO> books = string.IsNullOrEmpty(query) == false
-                ? GetBooksByQuery(query, findType)
-                : new List<BookDTO>();
-
-            ViewData["Visibility"] = "";
-            return View(books);
+            if (book == null)
+                return BadRequest();
+            _bookService.Create(book);
+            return Ok(book);
         }
 
-        private IEnumerable<BookDTO> GetBooksByQuery(string query, string findType)
+        [HttpPut("{id}")]
+        public ActionResult<Book> Put([FromBody] Book book)
         {
-            switch (findType)
-            {
-                case "name":
-                    return _bookService.FindByName(query);
-                case "authorName":
-                    return _bookService.FindByAuthorName(query);
-                case "chapterName":
-                    return _bookService.FindByChapterName(query);
-                default:
-                    return null;
-            }
+            if (book == null)
+                return BadRequest();
+            if (_bookService.Read(book.Id) == null)
+                return NotFound();
+
+            _bookService.Update(book);
+            return Ok(book);
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<Book> Delete(int id)
+        {
+            var book = _bookService.Read(id);
+            if (book == null)
+                return NotFound();
+            _bookService.Delete(id);
+            return Ok(book);
         }
     }
 }

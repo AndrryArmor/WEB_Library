@@ -7,10 +7,10 @@ namespace LibraryRestApi.BusinessLayer.Services
 {
     public interface IReaderService
     {
-        IEnumerable<Reader> GetAllReaders();
-        IEnumerable<Record> GetAllRecords();
-        IEnumerable<Book> GetAllBooks();
-        void AddNewReader(string name, string surname, int age, string email);
-        void AddBookToReader(int readerId, int bookId);
+        void Create(Reader item);
+        Reader Read(int id);
+        void Update(Reader item);
+        void Delete(int id);
+        IEnumerable<Reader> GetAll();
     }
 }

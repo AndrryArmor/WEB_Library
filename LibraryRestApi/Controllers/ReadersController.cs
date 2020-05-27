@@ -5,12 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Library.Models;
-using Library.Services;
-using Library.Objects;
+using LibraryRestApi.BusinessLayer.Services;
+using LibraryRestApi.BusinessLayer.Models;
 
-namespace Library.Controllers
+namespace LibraryRestApi.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class ReadersController : Controller
     {
         private IReaderService _readerService;
@@ -21,44 +22,49 @@ namespace Library.Controllers
         }
 
         [HttpGet]
-        public IActionResult RegisterNewReader()
+        public IEnumerable<Reader> Get()
         {
-            IEnumerable<ReaderDTO> readers = _readerService.GetAllReaders();
-            return View("RegisterNewReader", readers);
+            return _readerService.GetAll();
         }
 
-        [HttpPost]
-        public IActionResult RegisterNewReader(string name, string surname, int age, string email)
+        [HttpGet("{id}")]
+        public ActionResult<Reader> Get(int id)
         {
-            _readerService.AddNewReader(name, surname, age, email);
-            IEnumerable<ReaderDTO> readers = _readerService.GetAllReaders();
-            return View("RegisterNewReader", readers);
+            var reader = _readerService.Read(id);
+            if (reader == null)
+                return NotFound();
+            return new ObjectResult(reader);
         }
 
-        [HttpGet]
-        public IActionResult TakeABook()
+        [HttpPost()]
+        public ActionResult<Reader> Post([FromBody] Reader reader)
         {
-            var readerViewModel = new ReaderViewModel()
-            {
-                Readers = _readerService.GetAllReaders(),
-                Records = _readerService.GetAllRecords(),
-                Books = _readerService.GetAllBooks()
-            };
-            return View("TakeABook", readerViewModel);
+            if (reader == null)
+                return BadRequest();
+            _readerService.Create(reader);
+            return Ok(reader);
         }
 
-        [HttpPost]
-        public IActionResult TakeABook(string readerId, string bookId)
+        [HttpPut("{id}")]
+        public ActionResult<Reader> Put([FromBody] Reader reader)
         {
-            _readerService.AddBookToReader(int.Parse(readerId), int.Parse(bookId));
+            if (reader == null)
+                return BadRequest();
+            if (_readerService.Read(reader.Id) == null)
+                return NotFound();
 
-            var readerViewModel = new ReaderViewModel()
-            {
-                Readers = _readerService.GetAllReaders(),
-                Records = _readerService.GetAllRecords(),
-                Books = _readerService.GetAllBooks()
-            };
-            return View("TakeABook", readerViewModel);
+            _readerService.Update(reader);
+            return Ok(reader);
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<Reader> Delete(int id)
+        {
+            var reader = _readerService.Read(id);
+            if (reader == null)
+                return NotFound();
+            _readerService.Delete(id);
+            return Ok(reader);
         }
     }
 }

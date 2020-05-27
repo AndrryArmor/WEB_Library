@@ -13,13 +13,15 @@ namespace LibraryRestApi.BusinessLayer
         public MapperProfile()
         {
             CreateMap<AuthorEntity, Author>()
-                .ForMember(authorDTO => authorDTO.Books, opt => opt
-                    .MapFrom(author => author.AuthorBooks
-                        .Select(authorBook => authorBook.Book)));
+                .ForMember(author => author.Books, opt => opt
+                    .MapFrom(authorEntity => authorEntity.AuthorBooks
+                        .Select(authorBookEntity => authorBookEntity.Book)));
+            CreateMap<Author, AuthorEntity>();
             CreateMap<BookEntity, Book>()
-                .ForMember(bookDTO => bookDTO.Authors, opt => opt
-                    .MapFrom(book => book.AuthorBooks
-                        .Select(authorBook => authorBook.Author)));
+                .ForMember(book => book.Authors, opt => opt
+                    .MapFrom(bookEntity => bookEntity.AuthorBooks
+                        .Select(authorBookEntity => authorBookEntity.Author)));
+            CreateMap<Book, BookEntity>();
             CreateMap<ChapterEntity, Chapter>().ReverseMap();
             CreateMap<ReaderEntity, Reader>().ReverseMap();
             CreateMap<ReaderCardEntity, ReaderCard>().ReverseMap();

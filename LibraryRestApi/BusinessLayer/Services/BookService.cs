@@ -22,40 +22,33 @@ namespace LibraryRestApi.BusinessLayer.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<Book> FindByAuthorName(string authorName)
+        public void Create(Book book)
         {
-            var books = _unitOfWork.BookRepository.GetAll()
-                .Include(book => book.AuthorBooks)
-                .ThenInclude(authorBook => authorBook.Author).ToList();
-            var foundBooks = new List<BookEntity>();
-
-            foreach (var book in books)
-            {
-                var foundAuthorMatch = book.AuthorBooks
-                    .Find(authorBook => authorBook.Author.Name.ToLower() == authorName.ToLower() ||
-                        authorBook.Author.Surname.ToLower() == authorName.ToLower() ||
-                        authorBook.Author.Name.ToLower() + " " + authorBook.Author.Surname.ToLower() == authorName.ToLower());
-                if (foundAuthorMatch != null)
-                    foundBooks.Add(book);
-            }
-            return foundBooks.Select(book => _mapper.Map<Book>(book));
+            _unitOfWork.BookRepository.Create(_mapper.Map<BookEntity>(book));
+            _unitOfWork.SaveChanges();
         }
 
-        public IEnumerable<Book> FindByName(string name)
+        public Book Read(int id)
         {
-            var foundBooks = _unitOfWork.BookRepository.GetAll()
-                .Where(book => book.Name == name);
-            return foundBooks.Select(book => _mapper.Map<Book>(book));
-        } 
+            return _mapper.Map<Book>(_unitOfWork.BookRepository.Read(id));
+        }
 
-        public IEnumerable<Book> FindByChapterName(string chapterName)
+        public void Update(Book book)
         {
-            var foundBooks = _unitOfWork.BookRepository.GetAll()
-                .Include(book => book.Chapters)
-                .AsEnumerable()
-                .Where(book => book.Chapters
-                    .Find(chapter => chapter.Name == chapterName) != null);
-            return foundBooks.Select(book => _mapper.Map<Book>(book));
+            _unitOfWork.BookRepository.Update(_mapper.Map<BookEntity>(book));
+            _unitOfWork.SaveChanges();
+        }
+
+        public void Delete(int id)
+        {
+            _unitOfWork.BookRepository.Delete(id);
+            _unitOfWork.SaveChanges();
+        }
+
+        public IEnumerable<Book> GetAll()
+        {
+            var books = _unitOfWork.BookRepository.GetAll();
+            return books.Select(bookEntity => _mapper.Map<Book>(bookEntity));
         }
     }
 }

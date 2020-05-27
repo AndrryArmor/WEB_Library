@@ -5,12 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Library.Models;
-using Library.Services;
-using Library.Objects;
+using LibraryRestApi.BusinessLayer.Services;
+using LibraryRestApi.BusinessLayer.Models;
 
-namespace Library.Controllers
+namespace LibraryRestApi.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class AuthorsController : Controller
     {
         private IAuthorService _authorService;
@@ -21,40 +22,50 @@ namespace Library.Controllers
         }
 
         [HttpGet]
-        public IActionResult FindAuthors()
+        public IEnumerable<Author> Get()
         {
-            ViewData["Visibility"] = "hidden";
-            return View();
+            return _authorService.GetAll();
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<Author> Get(int id)
+        {
+            var author = _authorService.Read(id);
+            if (author == null)
+                return NotFound();
+            return new ObjectResult(author);
         }
 
         [HttpPost]
-        public IActionResult FindAuthors(string query, string findType)
+        public ActionResult<Author> Post([FromBody] Author author)
         {
-            IEnumerable<AuthorDTO> authors = string.IsNullOrEmpty(query) == false
-                ? GetAuthorsByQuery(query, findType)
-                : new List<AuthorDTO>();
-
-            ViewData["Visibility"] = "";
-            return View(authors);
+            if (author == null)
+                return BadRequest();
+            _authorService.Create(author);
+            return Ok(author);
         }
 
-        private IEnumerable<AuthorDTO> GetAuthorsByQuery(string query, string findType)
+        [HttpPut("{id}")]
+        public ActionResult<Author> Put([FromBody] Author author, int id)
         {
-            switch (findType)
-            {
-                case "name":
-                    return _authorService.FindByName(query);
-                case "birthDate":
-                    return DateTime.TryParse(query, out DateTime date) == true
-                        ? _authorService.FindByBirthDate(date)
-                        : new List<AuthorDTO>();
-                case "bookCount":
-                    return int.TryParse(query, out int bookCount) == true
-                        ? _authorService.FindByBookCount(bookCount)
-                        : new List<AuthorDTO>();
-                default:
-                    return new List<AuthorDTO>();
-            }
+            if (author == null)
+                return BadRequest();
+            if (_authorService.Read(id) == null)
+                return NotFound();
+
+            author.Id = id;
+            _authorService.Update(author);
+            return Ok(author);
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<Author> Delete(int id)
+        {
+            var author = _authorService.Read(id);
+            if (author == null)
+                return NotFound();
+            _authorService.Delete(id);
+            return Ok(author);
         }
     }
 }

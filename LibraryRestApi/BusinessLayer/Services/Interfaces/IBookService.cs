@@ -7,8 +7,10 @@ namespace LibraryRestApi.BusinessLayer.Services
 {
     public interface IBookService
     {
-        IEnumerable<Book> FindByAuthorName(string authorName);
-        IEnumerable<Book> FindByName(string name);
-        IEnumerable<Book> FindByChapterName(string chapterName);
+        void Create(Book item);
+        Book Read(int id);
+        void Update(Book item);
+        void Delete(int id);
+        IEnumerable<Book> GetAll();
     }
 }
